@@ -1,0 +1,68 @@
+﻿<Window x:Class="Routine.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Routine"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525" WindowStyle="ToolWindow">
+    <Window.Resources>
+        <local:MyMockClass x:Key="DesignViewModel" />
+    </Window.Resources>
+    <Grid>
+        <DockPanel x:Name="dockPanelMain" Visibility="Visible">
+            <DockPanel DockPanel.Dock="Top" Margin="5,5,5,0">
+                <Button x:Name="buttonAdd" DockPanel.Dock="Right" Margin="5,0,0,0"
+                    Height="20" Width="30" Content="Add" FontSize="10" Padding="1,-1,1,0" Click="buttonAdd_Click"/>
+                <ProgressBar x:Name="progressBarDone" DockPanel.Dock="Left" VerticalAlignment="Top"
+                         Height="20" Width="auto" IsIndeterminate="True" Value="{Binding Completion, Mode=OneWay}"/>
+            </DockPanel>
+            <ListBox x:Name="listBoxTasks" 
+                     d:DataContext="{Binding Source={StaticResource DesignViewModel}}" ItemsSource="{Binding MyListBoxItems}"
+                     Margin="5">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <DockPanel LastChildFill="True" Margin="5">
+                            <CheckBox DockPanel.Dock="Right" VerticalAlignment="Center" IsChecked="{Binding Path=IsChecked}" />
+                            <Label DockPanel.Dock="Left" Content="{Binding Path=Label}" />
+                        </DockPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </DockPanel>
+        <StackPanel x:Name="stackPanelAdd" HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Visibility="Collapsed">
+            <Grid x:Name="gridAdd" Visibility="Visible" >
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0"
+                   Content="Label :" HorizontalAlignment="Right" />
+                <Label x:Name="labelPeriod" Grid.Row="1" Grid.Column="0" 
+                   Content="Period :" HorizontalAlignment="Right" Foreground="Black" />
+                <TextBox x:Name="textBoxLabel" Grid.Row="0" Grid.Column="1" />
+                <TextBox x:Name="textBoxPeriod" Grid.Row="1" Grid.Column="1" />
+            </Grid>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                <Button x:Name="buttonOK" Grid.Row="2" Grid.Column="1" Content="OK" Width="50" 
+                    HorizontalContentAlignment="Center" HorizontalAlignment="Left"
+                    Margin="5" Click="buttonOK_Click"/>
+                <Button x:Name="buttonCancel" Grid.Row="2" Grid.Column="0" Content="Cancel" Width="50" 
+                    HorizontalContentAlignment="Center" HorizontalAlignment="Right"
+                    Margin="5" Click="buttonCancel_Click"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>
